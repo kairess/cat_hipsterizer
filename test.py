@@ -4,8 +4,7 @@ import numpy as np
 import pandas as pd
 
 img_size = 224
-dirname = 'CAT_06'
-base_path = '/mnt/sda1/cats/%s' % dirname
+base_path = 'samples'
 file_list = sorted(os.listdir(base_path))
 
 model_name = sys.argv[1]
@@ -26,22 +25,13 @@ def resize_img(im):
   return new_im, ratio, top, left
 
 for f in file_list:
-  if '.cat' not in f:
+  if '.jpg' not in f:
     continue
 
-  # read landmarks
-  pd_frame = pd.read_csv(os.path.join(base_path, f), sep=' ', header=None)
-  landmarks = (pd_frame.as_matrix()[0][1:-1]).reshape((-1, 2))
-
-  # load image
-  img_filename, ext = os.path.splitext(f)
-
-  img = cv2.imread(os.path.join(base_path, img_filename))
+  img = cv2.imread(os.path.join(base_path, f))
 
   # resize image and relocate landmarks
   img, ratio, top, left = resize_img(img)
-  landmarks = ((landmarks * ratio) + np.array([left, top])).astype(np.int)
-  bb = np.array([np.min(landmarks, axis=0), np.max(landmarks, axis=0)])
 
   inputs = (img.astype('float32') / 255).reshape((1, img_size, img_size, 3))
   bb = model.predict(inputs)[0].reshape((-1, 2))
