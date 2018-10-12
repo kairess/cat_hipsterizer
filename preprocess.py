@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 
 img_size = 224
-dirname = 'CAT_06'
+dirname = 'CAT_00'
 base_path = '/mnt/sda1/cats/%s' % dirname
 file_list = sorted(os.listdir(base_path))
 random.shuffle(file_list)
