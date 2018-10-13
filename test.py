@@ -123,6 +123,9 @@ for f in file_list:
 
   cv2.imshow('img', ori_img)
   cv2.imshow('result', result_img)
+  filename, ext = os.path.splitext(f)
+  cv2.imwrite('result/%s_lmks%s' % (filename, ext), ori_img)
+  cv2.imwrite('result/%s_result%s' % (filename, ext), result_img)
 
   if cv2.waitKey(0) == ord('q'):
     break
